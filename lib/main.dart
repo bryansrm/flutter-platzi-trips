@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:design_app_pz/User/ui/screens/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'platzi_trips.dart';
 import 'platzi_trips_cupertino.dart';
@@ -29,12 +30,14 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       bloc: UserBloc(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
 
         ),
         //home: PlatziTrips()
-        home: PlatziTripsCupertino(),
+        // home: PlatziTripsCupertino(),
+        home: SignInPage()
       )
     );
   }
