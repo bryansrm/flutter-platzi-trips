@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 
 import 'package:design_app_pz/widgets/gradient_back.dart';
 import 'package:design_app_pz/widgets/button_green.dart';
+import 'package:design_app_pz/User/bloc/bloc_user.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -9,8 +12,12 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+
+  UserBloc userBloc;
+
   @override
   Widget build(BuildContext context) {
+    userBloc = BlocProvider.of(context);
     return signInGoogleUI();
   }
 
@@ -34,7 +41,10 @@ class _SignInPageState extends State<SignInPage> {
                 text: 'Login with Google',
                 width: 300.0,
                 height: 50.0,
-                onPressed: (){}
+                onPressed: (){
+                  userBloc.signIn()
+                    .then((FirebaseUser result) => print("El usuario ingresado es ${result.displayName}"));
+                }
               )
             ],
           )
