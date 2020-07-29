@@ -1,3 +1,4 @@
+import 'package:design_app_pz/platzi_trips_cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
@@ -18,7 +19,22 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     userBloc = BlocProvider.of(context);
-    return signInGoogleUI();
+    return _handleSessionFirebase();
+  }
+
+  Widget _handleSessionFirebase(){
+    return StreamBuilder(
+      stream: userBloc.authStatus,
+      builder: (BuildContext context, AsyncSnapshot snapshot){
+        // snapshot - data - Object user
+        if( !snapshot.hasData || snapshot.hasError ){
+          return signInGoogleUI();
+        }
+        else{
+          return PlatziTripsCupertino();
+        }
+      },
+    );
   }
 
   Widget signInGoogleUI(){
