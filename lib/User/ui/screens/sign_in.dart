@@ -42,7 +42,7 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          GradientBack("", null),
+          GradientBack(height: null,),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
