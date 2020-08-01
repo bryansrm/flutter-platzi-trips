@@ -1,3 +1,4 @@
+import 'package:design_app_pz/User/model/user.dart';
 import 'package:design_app_pz/platzi_trips_cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,14 @@ class _SignInPageState extends State<SignInPage> {
                 height: 50.0,
                 onPressed: (){
                   userBloc.signIn()
-                    .then((FirebaseUser result) => print("El usuario ingresado es ${result.displayName}"));
+                    .then((FirebaseUser user) {
+                      userBloc.updateUserData(User(
+                        uid: user.uid,
+                        name: user.displayName,
+                        imgProfile: user.photoUrl,
+                        email: user.email,
+                      ));
+                    });
                 }
               )
             ],

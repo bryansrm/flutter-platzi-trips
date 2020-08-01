@@ -12,6 +12,15 @@ class CloudFirestoreAPI {
 
   void updateUserData( User user ) async {
     DocumentReference ref = _db.collection(USERS).document(user.uid);
+    return ref.setData({
+      'uid': user.uid,
+      'name': user.name,
+      'email': user.email,
+      'imgProfile': user.imgProfile,
+      'myPlaces': user.myPlaces,
+      'myFavoritePlaces': user.myFavoritePlaces,
+      'lastSignIn': DateTime.now(),
+    }, merge: true);
   }
 
 }
