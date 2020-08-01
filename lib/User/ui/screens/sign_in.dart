@@ -46,13 +46,18 @@ class _SignInPageState extends State<SignInPage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(' Welcome \n This is your travel app',
-                style: TextStyle(
-                  fontSize: 38.0,
-                  fontFamily: "Lato",
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold
-                ),  
+              Flexible(
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Text(' Welcome \n This is your travel app',
+                    style: TextStyle(
+                      fontSize: 38.0,
+                      fontFamily: "Lato",
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                    ),  
+                  ),
+                ),
               ),
               ButtonGreen(
                 text: 'Login with Google',
