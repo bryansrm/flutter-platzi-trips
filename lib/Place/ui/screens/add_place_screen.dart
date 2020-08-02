@@ -1,3 +1,4 @@
+import 'package:design_app_pz/widgets/title_header.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:design_app_pz/widgets/gradient_back.dart';
@@ -33,6 +34,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                     },
                     icon: Icon( Icons.keyboard_arrow_left, color: Colors.white, size: 45, )
                   ),
+                ),
+              ),
+              Flexible(
+                child: Container(
+                  margin: EdgeInsets.only(top: 40.0, left: 20.0),
+                  child: TitleHeader(title: 'Add new place',),
                 ),
               )
             ],
