@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:design_app_pz/Place/model/place.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 
@@ -25,6 +26,8 @@ class UserBloc implements Bloc{
   // 2. Registrar usuario en base de datos
   final _cloudFirestoreRepository = CloudFirestoreRepository();
   void updateUserData(User user) => _cloudFirestoreRepository.updateUserDataFirestore(user);
+  // 3. Registrar place en base de datos
+  Future<void> updatePlaceData(Place place) => _cloudFirestoreRepository.updatePlaceData(place);
 
 
    signOut(){

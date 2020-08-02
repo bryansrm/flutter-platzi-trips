@@ -1,10 +1,14 @@
+import 'package:design_app_pz/Place/model/place.dart';
 import 'package:design_app_pz/Place/ui/widgets/card_image.dart';
 import 'package:design_app_pz/Place/ui/widgets/location_input.dart';
+import 'package:design_app_pz/User/bloc/bloc_user.dart';
+import 'package:design_app_pz/widgets/button_purple.dart';
 import 'package:design_app_pz/widgets/text_input.dart';
 import 'package:design_app_pz/widgets/title_header.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:design_app_pz/widgets/gradient_back.dart';
+import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 
 
 class AddPlaceScreen extends StatefulWidget {
@@ -21,9 +25,13 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
   final _controllerTitle = TextEditingController();
   final _controllerDescription = TextEditingController();
+  final _controllerLocation = TextEditingController();
+  UserBloc userBloc;
 
   @override
   Widget build(BuildContext context) {
+    userBloc = BlocProvider.of<UserBloc>(context);
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -83,9 +91,25 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 Container(
                   margin: EdgeInsets.only(bottom: 20.0),
                   child: LocationInput(
-                    controller: _controllerDescription, 
+                    controller: _controllerLocation, 
                     hintText: "Location",
                     iconData: Icons.location_on,),
+                ),
+                Container(
+                  child: ButtonPurple(
+                    buttonText: "Add place",
+                    onPressed: () {
+                      //save image Firebase Storage
+                      userBloc.updatePlaceData(new Place(
+                        name: _controllerTitle.text.trim(),
+                        description: _controllerDescription.text.trim(),
+                        likes: 0
+                      )).whenComplete(() {
+                        print("Se guardo los datos");
+                        Navigator.pop(context);
+                      }) ;
+                    },
+                  ),
                 )
               ],
             ),
