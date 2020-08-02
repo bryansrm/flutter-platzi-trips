@@ -1,3 +1,5 @@
+import 'package:design_app_pz/Place/ui/widgets/card_image.dart';
+import 'package:design_app_pz/Place/ui/widgets/location_input.dart';
 import 'package:design_app_pz/widgets/text_input.dart';
 import 'package:design_app_pz/widgets/title_header.dart';
 import 'package:flutter/material.dart';
@@ -50,12 +52,21 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
             ],
           ),
           Container(
-            margin: EdgeInsets.only(top: 120.0, bottom: 20.0),
+            margin: EdgeInsets.only(top: 80.0, bottom: 20.0),
             child: ListView(
               children: <Widget>[
-                Container(),
                 Container(
-                  margin: EdgeInsets.only(bottom: 20.0),
+                  alignment: Alignment.center,
+                  child: CardImage(
+                    pathImage: "assets/img/beach_palm.jpeg",//widget.image.path,
+                    iconData: Icons.camera_alt,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    height: 250,
+                    left: 0,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 30.0, bottom: 20.0),
                   child: CustomTextInput(
                     controller: _controllerTitle, 
                     hintText: "Title",
@@ -68,6 +79,13 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                     hintText: "Description",
                     inputType: TextInputType.multiline,
                     maxLines: 4,),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 20.0),
+                  child: LocationInput(
+                    controller: _controllerDescription, 
+                    hintText: "Location",
+                    iconData: Icons.location_on,),
                 )
               ],
             ),
