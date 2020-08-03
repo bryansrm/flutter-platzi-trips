@@ -38,6 +38,18 @@ class CloudFirestoreAPI {
         //'userOwner': "$USERS/${userLogin.uid}"
         'userOwner': _userRef ,
         'urlImage': place.urlImage
+      }).then((place){
+        DocumentReference refUsers = _db.collection(USERS).document(userLogin.uid);
+        refUsers.updateData({
+          'myPlaces': FieldValue.arrayUnion([ place ])
+        });
+        // place.get().then((snapshot){
+        //   //snapshot.documentID;
+        //   DocumentReference refUsers = _db.collection(USERS).document(userLogin.uid);
+        //   refUsers.updateData({
+        //     'myPlaces': FieldValue.arrayUnion([ place ])
+        //   });
+        // });
       });
     });
   }
