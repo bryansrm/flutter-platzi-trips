@@ -99,15 +99,32 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                   child: ButtonPurple(
                     buttonText: "Add place",
                     onPressed: () {
-                      //save image Firebase Storage
-                      userBloc.updatePlaceData(new Place(
-                        name: _controllerTitle.text.trim(),
-                        description: _controllerDescription.text.trim(),
-                        likes: 0
-                      )).whenComplete(() {
-                        print("Se guardo los datos");
-                        Navigator.pop(context);
-                      }) ;
+                      userBloc.currentUser.then((user){
+                        if( user != null ){
+                          String uid = user.uid;
+                          String path = "$uid/${DateTime.now().toString()}/.jpg";
+
+                          userBloc.uploadFile(path, widget.image).then((storage){
+                              storage.onComplete.then((snapshot){
+                                snapshot.ref.getDownloadURL().then((urlImage){
+                                  
+                                  //save image Firebase Storage
+                                  userBloc.updatePlaceData(new Place(
+                                    name: _controllerTitle.text.trim(),
+                                    description: _controllerDescription.text.trim(),
+                                    likes: 0,
+                                    urlImage: urlImage
+                                  )).whenComplete(() {
+                                    print("Se guardo los datos");
+                                    Navigator.pop(context);
+                                  }) ;
+                                
+                                });
+                              });
+                            });
+                        }
+                      });
+                      
                     },
                   ),
                 )
