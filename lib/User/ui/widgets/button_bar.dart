@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 
 import 'package:design_app_pz/User/bloc/bloc_user.dart';
+import 'package:image_picker/image_picker.dart';
 import 'circle_button.dart';
 
 class ButtonsBar extends StatelessWidget {
@@ -40,9 +41,16 @@ class ButtonsBar extends StatelessWidget {
             ),
             CircleButton(
               onPressed: (){
-                File image;
-                Navigator.push(context, 
-                  MaterialPageRoute(builder: (BuildContext context) => AddPlaceScreen(image: image,) ));
+                final picker = ImagePicker();
+                picker.getImage(source: ImageSource.camera)
+                  .then((image){
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => AddPlaceScreen(image: File(image.path),) 
+                      )
+                    );
+                  });
               },
               mini: false, 
               icon: Icons.add, 
@@ -72,6 +80,7 @@ class ButtonsBar extends StatelessWidget {
           ],
         )
     );
+
   }
 
 }
