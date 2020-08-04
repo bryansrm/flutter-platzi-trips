@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:design_app_pz/User/bloc/bloc_user.dart';
 import 'package:design_app_pz/User/model/user.dart';
 import 'package:flutter/material.dart';
@@ -20,55 +22,57 @@ class ProfileTrips extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot snapshot){
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
+          case ConnectionState.none:
+            return CircularProgressIndicator();
           case ConnectionState.active:
           case ConnectionState.done:
-          case ConnectionState.none:
           default:
+            return showProfileData(snapshot);
         }
       },
     );
+  }
     
-    
 
-    Widget showProfileData(AsyncSnapshot snapshot){
-      if(!snapshot.hasData || snapshot.error){
-        return Stack(
-          children: <Widget>[
-            ProfileBackground(),
-            ListView(
-              children: <Widget>[
-                // ProfileHeader(),
-                // ProfilePlacesList()
-                Text("Usuario no logueado")
+  Widget showProfileData(AsyncSnapshot snapshot){
+    if(snapshot.hasData == null || snapshot.hasError){
+      return Stack(
+        children: <Widget>[
+          ProfileBackground(),
+          ListView(
+            children: <Widget>[
+              // ProfileHeader(),
+              // ProfilePlacesList()
+              Text("Usuario no logueado")
 
-              ],
-            ),
-          ],
-        );
-      }
-      else{
-        print('Logueado');
-        var user = User(
-          uid: snapshot.data.uid,
-          name: snapshot.data.name,
-          email: snapshot.data.email,
-          imgProfile: snapshot.data.imgProfile,
+            ],
+          ),
+        ],
+      );
+    }
+    else{
+      print('Logueado');
+      //print(jsonEncode(jsonDecode(snapshot.data.toString())));
+      var user = User(
+        uid: snapshot.data.uid,
+        name: snapshot.data.displayName,
+        email: snapshot.data.email,
+        imgProfile: snapshot.data.photoUrl,
 
-        );
+      );
 
-        return Stack(
-          children: <Widget>[
-            ProfileBackground(),
-            ListView(
-              children: <Widget>[
-                ProfileHeader(),
-                ProfilePlacesList()
+      return Stack(
+        children: <Widget>[
+          ProfileBackground(),
+          ListView(
+            children: <Widget>[
+              ProfileHeader(user: user),
+              ProfilePlacesList(user: user,)
 
-              ],
-            ),
-          ],
-        );
-      }
+            ],
+          ),
+        ],
+      );
     }
   }
 

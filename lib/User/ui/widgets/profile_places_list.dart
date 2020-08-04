@@ -1,4 +1,5 @@
 import 'package:design_app_pz/User/bloc/bloc_user.dart';
+import 'package:design_app_pz/User/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:design_app_pz/User/ui/widgets/profile_place.dart';
 import 'package:design_app_pz/Place/model/place.dart';
@@ -7,6 +8,7 @@ import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 class ProfilePlacesList extends StatelessWidget {
 
   UserBloc userBloc;
+  final User user;
 
   // Place place = new Place('Knuckles Mountains Range', 'Hiking. Water fall hunting. Natural bath', 'Scenery & Photography', '123,123,123');
   // Place place2 = new Place('Mountains', 'Hiking. Water fall hunting. Natural bath', 'Scenery & Photography', '321,321,321');
@@ -24,6 +26,8 @@ class ProfilePlacesList extends StatelessWidget {
     likes: 10
   );
 
+  ProfilePlacesList({Key key, this.user}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
 
@@ -37,7 +41,7 @@ class ProfilePlacesList extends StatelessWidget {
           bottom: 10.0
       ),
       child: StreamBuilder(
-        stream: userBloc.placesStream,
+        stream: userBloc.myPlacesListStream(user.uid),
         builder: (context , AsyncSnapshot snapshot){
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
