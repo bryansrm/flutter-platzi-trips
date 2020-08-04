@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:design_app_pz/Place/model/place.dart';
+import 'package:design_app_pz/Place/ui/widgets/card_image.dart';
 import 'package:design_app_pz/User/model/user.dart';
 import 'package:design_app_pz/User/ui/widgets/profile_place.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class CloudFirestoreAPI {
 
@@ -48,7 +50,7 @@ class CloudFirestoreAPI {
     });
   }
 
-  List<ProfilePlace> buildPlaces( List<DocumentSnapshot> placesListSnapshot ){
+  List<ProfilePlace> buildMyPlaces( List<DocumentSnapshot> placesListSnapshot ){
     
     List<ProfilePlace> profilePlaces = List<ProfilePlace>();
     placesListSnapshot.forEach((place) {
@@ -65,7 +67,37 @@ class CloudFirestoreAPI {
     });
 
     return profilePlaces;
+  }
 
+  List<CardImage> buildPlaces( List<DocumentSnapshot> placesListSnapshot ){
+    List<CardImage> placesCard = List<CardImage>();
+    IconData iconData = Icons.favorite_border;
+
+    placesListSnapshot.forEach((place) {
+      placesCard.add(
+        CardImage(
+          pathImage: place.data['urlImage'],
+          iconData: iconData,
+          onPressedIcon: () => likePlace(place.documentID),
+        )
+      );
+    });
+
+    return placesCard;
+
+  }
+
+  Future likePlace(String idPlace) async{
+    await _db.collection(PLACES).document(idPlace)
+      .get()
+      .then((value){
+        int likes = value.data['likes'];
+        _db.collection(PLACES)
+          .document(idPlace)
+          .updateData({
+            'likes': likes+1
+          });
+      });
   }
 
 }

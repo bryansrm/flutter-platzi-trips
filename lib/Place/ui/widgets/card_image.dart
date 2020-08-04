@@ -24,6 +24,7 @@ class  CardImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    print(pathImage);
 
     final card = Container(
       height: height,
@@ -33,7 +34,7 @@ class  CardImage extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
-            image: AssetImage(pathImage)
+            image: pathImage == null ? AssetImage("assets/img/beach.jpeg") : NetworkImage(pathImage)
         ),
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
         shape: BoxShape.rectangle,
