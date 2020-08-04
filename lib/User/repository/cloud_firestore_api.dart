@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:design_app_pz/Place/model/place.dart';
 import 'package:design_app_pz/User/model/user.dart';
+import 'package:design_app_pz/User/ui/widgets/profile_place.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class CloudFirestoreAPI {
@@ -43,15 +44,27 @@ class CloudFirestoreAPI {
         refUsers.updateData({
           'myPlaces': FieldValue.arrayUnion([ place ])
         });
-        // place.get().then((snapshot){
-        //   //snapshot.documentID;
-        //   DocumentReference refUsers = _db.collection(USERS).document(userLogin.uid);
-        //   refUsers.updateData({
-        //     'myPlaces': FieldValue.arrayUnion([ place ])
-        //   });
-        // });
       });
     });
+  }
+
+  List<ProfilePlace> buildPlaces( List<DocumentSnapshot> placesListSnapshot ){
+    
+    List<ProfilePlace> profilePlaces = List<ProfilePlace>();
+    placesListSnapshot.forEach((place) {
+      profilePlaces.add( ProfilePlace(
+        Place(
+          name: place.data['name'], 
+          description: place.data['description'], 
+          urlImage: place.data['urlImage'], 
+        )
+      ) );
+
+      
+    });
+
+    return profilePlaces;
+
   }
 
 }

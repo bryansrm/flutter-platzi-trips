@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:design_app_pz/Place/model/place.dart';
 import 'package:design_app_pz/Place/repository/firebase_storage_repository.dart';
+import 'package:design_app_pz/User/repository/cloud_firestore_api.dart';
+import 'package:design_app_pz/User/ui/widgets/profile_place.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
@@ -32,6 +35,9 @@ class UserBloc implements Bloc{
   void updateUserData(User user) => _cloudFirestoreRepository.updateUserDataFirestore(user);
   // 3. Registrar place en base de datos
   Future<void> updatePlaceData(Place place) => _cloudFirestoreRepository.updatePlaceData(place);
+  Stream<QuerySnapshot> placesListStream = Firestore.instance.collection( CloudFirestoreAPI().PLACES ).snapshots();
+  Stream<QuerySnapshot> get placesStream => placesListStream;
+  List<ProfilePlace> buildPlaces(List<DocumentSnapshot> placesListSnapshot) => _cloudFirestoreRepository.buildPlaces(placesListSnapshot);  
 
   final _firebaseStorageRepository = FirebaseStorageRepository();
 
